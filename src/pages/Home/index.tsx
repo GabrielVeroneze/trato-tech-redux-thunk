@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { adicionarItens } from '@/store/reducers/itens'
 import { buscarCategorias } from '@/store/reducers/categoria'
-import { RootState } from '@/store'
+import { AppDispatch, RootState } from '@/store'
 import { Produto } from '@/types/Produto'
 import instance from '@/common/config/api'
 import Header from '@/components/Header'
@@ -13,7 +13,7 @@ import styles from './Home.module.scss'
 
 const Home = () => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     const categorias = useSelector((state: RootState) => state.categorias)
 
