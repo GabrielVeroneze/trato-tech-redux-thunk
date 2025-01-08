@@ -1,8 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { v4 as uuid } from 'uuid'
 import { Produto } from '@/types/Produto'
+import itensService from '@/services/itens'
 
 const initialState: Produto[] = []
+
+export const buscarItens = createAsyncThunk(
+    'itens/buscar',
+    itensService.buscar
+)
 
 const itensSlice = createSlice({
     name: 'itens',
@@ -34,6 +40,11 @@ const itensSlice = createSlice({
             state.push(...payload)
         },
     },
+    extraReducers: (builder) => {
+        builder.addCase(buscarItens.fulfilled, (state, { payload }) => {
+            state.push(...payload)
+        })
+    }
 })
 
 export const { mudarFavorito, cadastrarItem, mudarItem, deletarItem, adicionarItens } = itensSlice.actions
