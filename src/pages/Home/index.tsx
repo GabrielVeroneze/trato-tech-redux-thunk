@@ -1,14 +1,30 @@
-import { useSelector } from 'react-redux'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { adicionarCategorias } from '@/store/reducers/categoria'
 import { RootState } from '@/store'
+import { Categoria } from '@/types/Categoria'
+import instance from '@/common/config/api'
 import Header from '@/components/Header'
 import Button from '@/components/Button'
 import relogio from '@/assets/inicial.png'
 import styles from './Home.module.scss'
 
 const Home = () => {
-    const categorias = useSelector((state: RootState) => state.categorias)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const categorias = useSelector((state: RootState) => state.categorias)
+
+    const buscarCategorias = useCallback(async () => {
+        const resposta = await instance.get<Categoria>('/categorias')
+
+        dispatch(adicionarCategorias(resposta.data))
+    }, [dispatch])
+
+    useEffect(() => {
+        buscarCategorias()
+    }, [buscarCategorias])
 
     return (
         <div>
