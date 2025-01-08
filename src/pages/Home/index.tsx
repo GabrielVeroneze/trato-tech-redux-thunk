@@ -1,10 +1,9 @@
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { adicionarCategorias } from '@/store/reducers/categoria'
 import { adicionarItens } from '@/store/reducers/itens'
+import { buscarCategorias } from '@/store/reducers/categoria'
 import { RootState } from '@/store'
-import { Categoria } from '@/types/Categoria'
 import { Produto } from '@/types/Produto'
 import instance from '@/common/config/api'
 import Header from '@/components/Header'
@@ -18,12 +17,6 @@ const Home = () => {
 
     const categorias = useSelector((state: RootState) => state.categorias)
 
-    const buscarCategorias = useCallback(async () => {
-        const resposta = await instance.get<Categoria[]>('/categorias')
-
-        dispatch(adicionarCategorias(resposta.data))
-    }, [dispatch])
-
     const buscarItens = useCallback(async () => {
         const resposta = await instance.get<Produto[]>('/itens')
 
@@ -31,9 +24,9 @@ const Home = () => {
     }, [dispatch])
 
     useEffect(() => {
-        buscarCategorias()
+        dispatch(buscarCategorias())
         buscarItens()
-    }, [buscarCategorias, buscarItens])
+    }, [dispatch, buscarItens])
 
     return (
         <div>
