@@ -14,9 +14,17 @@ const categoriasSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(buscarCategorias.fulfilled, (state, { payload }) => {
-            return payload
-        })
+        builder
+            .addCase(buscarCategorias.fulfilled, (state, { payload }) => {
+                console.log('categorias carregadas!')
+                return payload
+            })
+            .addCase(buscarCategorias.pending, (state, { payload }) => {
+                console.log('carregando categorias')
+            })
+            .addCase(buscarCategorias.rejected, (state, { payload }) => {
+                console.log('busca de categorias rejeitada!')
+            })
     },
 })
 
