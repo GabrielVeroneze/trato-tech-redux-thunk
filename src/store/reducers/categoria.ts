@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { createStandaloneToast } from '@chakra-ui/toast'
+import { resetarCarrinho } from '@/store/reducers/carrinho'
 import { Categoria } from '@/types/Categoria'
 import categoriasService from '@/services/categorias'
 
@@ -42,6 +43,15 @@ const categoriasSlice = createSlice({
                     title: 'Erro',
                     description: 'Erro na busca de categorias',
                     status: 'error',
+                    duration: 2000,
+                    isClosable: true,
+                })
+            })
+            .addCase(resetarCarrinho.type, () => {
+                toast({
+                    title: 'Sucesso!',
+                    description: 'Compra completada com sucesso!',
+                    status: 'success',
                     duration: 2000,
                     isClosable: true,
                 })
